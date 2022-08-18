@@ -3,9 +3,17 @@ services:
     build: 
       context: deno-core
       dockerfile: ../etc/docker_deno
+    ports:
+      - 8080:8080
   deno-oak:
     build: 
-      context: deno-core
+      context: deno-oak
+      dockerfile: ../etc/docker_deno
+    ports:
+      - 8080:8080
+  deno-api-server:
+    build: 
+      context: deno-api-server
       dockerfile: ../etc/docker_deno
     ports:
       - 8080:8080
