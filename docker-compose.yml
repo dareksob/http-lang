@@ -1,0 +1,11 @@
+services:
+  deno-core:
+    build: 
+      context: deno-core
+      dockerfile: ../etc/docker_deno
+  deno-oak:
+    build: 
+      context: deno-core
+      dockerfile: ../etc/docker_deno
+    ports:
+      - 8080:8080

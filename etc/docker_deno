@@ -1,0 +1,7 @@
+FROM denoland/deno:1.24.3
+
+WORKDIR /app
+COPY . .
+
+ENTRYPOINT [ "deno", "run", "--allow-net", "main.ts" ]
+EXPOSE 8080
