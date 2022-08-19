@@ -1,19 +1,34 @@
+## info start your service by name `docker compose up --build deno-core`
 services:
+  ### deno ###
   deno-core:
     build: 
       context: deno-core
       dockerfile: ../etc/docker_deno
     ports:
       - 8080:8080
+  # deno with oak
   deno-oak:
     build: 
       context: deno-oak
       dockerfile: ../etc/docker_deno
     ports:
       - 8080:8080
+  # deno with api server
   deno-api-server:
     build: 
       context: deno-api-server
       dockerfile: ../etc/docker_deno
     ports:
       - 8080:8080
+
+  ### go ###
+  go-gin:
+    build: 
+      context: go-gin
+      dockerfile: ../etc/docker_go
+    ports:
+      - 8080:8080
+  
+
+  
