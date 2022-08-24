@@ -21,7 +21,7 @@ func main() {
 	})
 	
 	// GET /get/:id
-	router.GET("/get/:id", func(c *gin.Context) {
+	router.GET("/get/", func(c *gin.Context) {
 		id := c.Param("id")
 		c.String(http.StatusOK, "hello %s", id)
 	})

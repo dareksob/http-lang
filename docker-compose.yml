@@ -23,6 +23,12 @@ services:
       - 8080:8080
 
   ### go ###
+  go-core:
+    build:
+      context: go-core
+      dockerfile: ../etc/docker_go
+    ports:
+      - 8080:8080
   go-gin:
     build: 
       context: go-gin

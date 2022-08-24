@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"regexp"
 	"net/http"
 	"encoding/json"
 )
 
 type Msg struct {
-	Msg string
+	Msg string `json:"msg"`
 }
 
 func accessLog(r *http.Request) {
@@ -19,19 +20,23 @@ func prinftJson(w http.ResponseWriter, m Msg) {
 	jsonStatus, err := json.Marshal(m)
 
 	if (err != nil) {
-			fmt.Fprintf(w, "Error", err)
+		fmt.Fprintf(w, "Error", err)
 	} else {
-			fmt.Fprintf(w, string(jsonStatus))
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, string(jsonStatus))
 	}
 }
 
-
 func main() {
-	
 	// GET /
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		accessLog(r)
-		fmt.Fprintf(w, "hello world")
+
+		if (r.URL.Path == "/") {
+			fmt.Fprintf(w, "hello world")
+		} else {
+			http.NotFound(w, r)
+		}
 	})
 
 	// GET /get-json
@@ -40,11 +45,20 @@ func main() {
 		prinftJson(w, Msg{"hello world"})
 	})
 
-	// GET /get/:id
-	// @todo use an parameter
-	http.HandleFunc("/get/name", func(w http.ResponseWriter, r *http.Request) {
+	// matches for routes
+	var getId = regexp.MustCompile("^/get/(.*)")
+	
+
+	// GET /get-json
+	http.HandleFunc("/get/", func(w http.ResponseWriter, r *http.Request) {
 		accessLog(r)
-		prinftJson(w, Msg{"hello name"})
+
+		if (getId.MatchString(r.URL.Path)) {
+			match := getId.FindStringSubmatch(r.URL.Path)
+			prinftJson(w, Msg{"hello " + match[1]})
+		} else {
+			http.NotFound(w, r)
+		}
 	})
 
 	log.Printf("Go core webserver running. Access it at: http://localhost:8080")
