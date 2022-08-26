@@ -36,5 +36,12 @@ services:
     ports:
       - 8080:8080
   
+  ## python
+  python-flask:
+    build:
+      context: python-flask
+      dockerfile: ../etc/docker_python3
+    ports:
+      - 8080:8080
 
   
